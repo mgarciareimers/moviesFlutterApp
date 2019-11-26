@@ -15,6 +15,21 @@ class MoviesProvider {
       'language' : this._language,
     });
 
+    return await this._getData((url));
+  }
+
+  // Method that gets the movies in cinemas.
+  Future<List<Movie>> getPopularMovies() async {
+    final url = Uri.https(this._url, '/3/movie/popular', {
+      'api_key' : this._apiKey,
+      'language' : this._language,
+    });
+
+    return await this._getData((url));
+  }
+
+  // Method that gets data from url.
+  Future<List<Movie>> _getData(Uri url) async {
     final response = await http.get(url);
     final decodedData = json.decode(response.body);
 
