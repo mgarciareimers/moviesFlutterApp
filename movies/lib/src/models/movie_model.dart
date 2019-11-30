@@ -55,6 +55,14 @@ class Movie {
 
     return 'https://image.tmdb.org/t/p/w500/${this.posterPath}';
   }
+
+  String getBackdropPathImg() {
+    if (this.backdropPath == null) {
+      return 'https://cdn11.bigcommerce.com/s-auu4kfi2d9/stencil/59606710-d544-0136-1d6e-61fd63e82e44/e/0fa64ac0-0314-0137-cf43-1554cd16a871/icons/icon-no-image.svg';
+    }
+
+    return 'https://image.tmdb.org/t/p/w500/${this.backdropPath}';
+  }
 }
 
 class Movies {
@@ -67,8 +75,8 @@ class Movies {
       return;
     }
 
-    for (var item in jsonList) {
+    jsonList.forEach((item) {
       this.items.add(new Movie.fromJsonMap(item));
-    }
+    });
   }
 }
