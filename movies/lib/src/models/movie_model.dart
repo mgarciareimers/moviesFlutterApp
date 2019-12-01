@@ -13,6 +13,7 @@ class Movie {
   double voteAverage;
   String overview;
   String releaseDate;
+  String uniqueId; // Not from movieDB, but customized one to use for Hero animation.
 
   Movie({
     this.id,
@@ -66,7 +67,7 @@ class Movie {
 }
 
 class Movies {
-  List<Movie> items = new List();
+  List<Movie> movies = new List();
 
   Movies();
 
@@ -76,7 +77,7 @@ class Movies {
     }
 
     jsonList.forEach((item) {
-      this.items.add(new Movie.fromJsonMap(item));
+      this.movies.add(new Movie.fromJsonMap(item));
     });
   }
 }

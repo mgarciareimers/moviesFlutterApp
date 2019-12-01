@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:movies/src/providers/movies_provider.dart';
 import 'package:movies/src/models/movie_model.dart';
+import 'package:movies/src/models/actor_model.dart';
 
 class MovieDetail extends StatelessWidget {
 
@@ -18,6 +20,7 @@ class MovieDetail extends StatelessWidget {
                 SizedBox(height: 10),
                 this._createPosterTitle(context, movie),
                 this._createDescription(movie),
+                this._createCast(movie),
               ]
             ),
           ),
@@ -56,11 +59,15 @@ class MovieDetail extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image(
-              image: NetworkImage(movie.getPosterImg()),
-              height: 150,
+          Hero(
+            tag: movie.uniqueId,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/img/no-image.jpg'),
+                image: NetworkImage(movie.getPosterImg()),
+                height: 150,
+              ),
             ),
           ),
           SizedBox(width: 20,),
@@ -91,6 +98,71 @@ class MovieDetail extends StatelessWidget {
       child: Text(
         movie.overview,
         textAlign: TextAlign.justify,
+      ),
+    );
+  }
+
+  // Method that creates the cast pageView.
+  Widget _createCast(Movie movie) {
+    final moviesProvider = new MoviesProvider();
+
+    return FutureBuilder(
+      future: moviesProvider.getMovieCast(movie.id.toString()),
+      builder: (BuildContext buildContext, AsyncSnapshot<List<Actor>> snapshot) {
+        if (snapshot.hasData) {
+          return this._createCastPageView(snapshot.data);
+        }
+
+        return Container(
+          height: 400,
+          child: Center(
+              child: CircularProgressIndicator()
+          ),
+        );
+      },
+    );
+  }
+
+  // Method that creates the cast page view.
+  Widget _createCastPageView(List<Actor> cast) {
+    return SizedBox(
+      height: 200,
+      child: PageView.builder(
+        controller: PageController(
+          viewportFraction: 0.3,
+          initialPage: 1,
+        ),
+        itemCount: cast.length,
+        itemBuilder: (BuildContext context, int index) {
+          return this._actorCard(cast[index]);
+        },
+        pageSnapping: false,
+      ),
+    );
+  }
+
+  // Method that creates an actor card.
+  Widget _actorCard(Actor actor) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: FadeInImage(
+              placeholder: AssetImage('assets/img/no-image.jpg'),
+              image: NetworkImage(actor.getProfileImg()),
+              height: 150,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            actor.name,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }

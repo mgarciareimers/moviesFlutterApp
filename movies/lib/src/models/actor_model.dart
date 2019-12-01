@@ -40,7 +40,7 @@ class Actor {
 }
 
 class Cast {
-  List<Actor> items = new List();
+  List<Actor> actors = new List();
 
   Cast();
 
@@ -50,7 +50,7 @@ class Cast {
     }
 
     jsonList.forEach((item) {
-      this.items.add(new Actor.fromJsonMap(item));
+      this.actors.add(new Actor.fromJsonMap(item));
     });
   }
 }
