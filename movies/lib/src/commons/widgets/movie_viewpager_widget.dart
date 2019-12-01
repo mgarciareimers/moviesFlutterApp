@@ -25,7 +25,7 @@ class MovieViewPager extends StatelessWidget {
     });
 
     return Container(
-      height: _screenSize.height * 0.3,
+      height: _screenSize.height * 0.35,
       child: PageView.builder(
         itemCount: movies.length,
         itemBuilder: (BuildContext context, int index) => this._createCard(context, movies[index]),
