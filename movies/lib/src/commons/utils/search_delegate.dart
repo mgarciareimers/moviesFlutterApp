@@ -69,7 +69,7 @@ class DataSearch extends SearchDelegate {
                 onTap: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
 
-                  close(context, null);
+                  //close(context, null);
                   Navigator.pushNamed(context, '/detail', arguments: movie);
                 },
               );
