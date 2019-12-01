@@ -55,7 +55,7 @@ class MovieViewPager extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text(
             movie.title,
             overflow: TextOverflow.ellipsis,

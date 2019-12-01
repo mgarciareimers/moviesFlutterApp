@@ -82,4 +82,15 @@ class MoviesProvider {
 
     return cast.actors;
   }
+
+  // Method that gets the movies in cinemas.
+  Future<List<Movie>> getMoviesQuery(String query) async {
+    final url = Uri.https(this._url, '/3/search/movie', {
+      'api_key' : this._apiKey,
+      'language' : this._language,
+      'query' : query,
+    });
+
+    return await this._getData((url));
+  }
 }
